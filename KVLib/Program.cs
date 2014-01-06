@@ -14,19 +14,14 @@ namespace KVLib
         public static void Main(string[] args)
         {
 
-            string doc = File.ReadAllText("npc_abilities_custom.txt");
-            string test = " \"CustomHeroList\" { \"npc_dota_hero_axe\"		\"1\" \r\n } ";
-            string itemtest = " //test \n\"BlockTestTester\" { //=====\n //test \n \"npc_dota_hero_axe\"  \t\"0\" //========\n//======\n\"test2\" { test3 0 } \r\n}";
+            string doc = File.ReadAllText("frostivus_english.txt");
+            string test = "{ \"npc_dota_hero_axe\"		\"1\" \n  } ";
+            string itemtest = " //test \n\"BlockTestTester\" {\r\n\t\"npc_dota_hero_axe\"  \t\"0\"\r\n //test\r\n\"test2\" { \"test3\" \"0\" } \r\n}";
             string commentTest = " //test\n //test2 //test3\n";
 
-            var c = KVParser.Document.Parse(itemtest);
+           
 
-            PrintNode(c, 0);
-
-
-
-
-            c = KVParser.Document.Parse(doc);
+            var c = KVParser.Document.Parse(doc);
 
             PrintNode(c, 0);
 
@@ -39,22 +34,25 @@ namespace KVLib
 
         }
 
-        public static void PrintNode(Node n, int indent)
+        public static void PrintNode(Item n, int indent)
         {
             for (int i = 0; i < indent; i++)
                 Console.Write("\t");
             Console.WriteLine(n.Key);
-            foreach (Item child in n.Children)
+            if (n.HasChildren)
             {
-                if (child is Content)
+                foreach (Item child in n.Children)
                 {
-                    for (int i = 0; i <= indent; i++)
-                        Console.Write("\t");
-                    Console.WriteLine(string.Format("{0} {1}", child.Key, (child as Content).Text));
-                }
-                if (child is Node)
-                {                   
-                    PrintNode(child as Node, indent+1);
+                    if (!child.HasChildren)
+                    {
+                        for (int i = 0; i <= indent; i++)
+                            Console.Write("\t");
+                        Console.WriteLine(string.Format("{0} {1}", child.Key, child.Text));
+                    }
+                    else
+                    {
+                        PrintNode(child, indent + 1);
+                    }
                 }
             }
         }

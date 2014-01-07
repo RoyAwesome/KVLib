@@ -32,43 +32,42 @@ namespace KVLib
 
     public class KVParser
     {
-        static Parser<Char> NewLine = Parse.Char((c => char.GetUnicodeCategory(c) == System.Globalization.UnicodeCategory.LineSeparator), "New Line");
-
-        static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{')
+#region TextModel
+         static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{')
             .XOr(Parse.WhiteSpace.XOr(Parse.Char('"'))));
 
-        public static Parser<string> Comment =           
+        static Parser<string> Comment =           
             from first in Parse.Char('/').Repeat(2).Token()
             from rest in Parse.AnyChar.Until(Parse.Char('\n'))
             select new string(rest.ToArray());
 
-        public static Parser<IEnumerable<string>> AllComments =
+        static Parser<IEnumerable<string>> AllComments =
             from first in Comment.Token().Many()
             select first;       
 
-        public static Parser<string> KVString =        
+        static Parser<string> KVString =        
             from first in Parse.Char('"').Token().Optional()
             from rest in Parse.AnyChar.Except(DisallowedKeyChar).Token().Many()
             from last in Parse.Char('"').Token().Optional()
             select new string(rest.ToArray());
 
 
-        public static Parser<Item> SubKey(string key)
+        static Parser<KeyValue> SubKey(string key)
         {
             return from open in Parse.Char('{').Token().Named("Start of Block")
                    from value in Parse.Ref(() => Item).Many()  
                    from close in Parse.Char('}').Token().Named("End of Block")
-                   select (new Item() { Key = key, Children = value });
+                   select (new KeyValue(key) { Children = value });
         }
 
-        public static Parser<Item> Value(string key)
+        static Parser<KeyValue> Value(string key)
         {
             return from Value in KVString.Token().Named("Content Value")
-                   select (new Item() { Key = key, Text = Value });
+                   select (new KeyValue(key) { Value = Value });
 
         }
 
-        public static Parser<Item> Item =
+        static Parser<KeyValue> Item =
             from c1 in AllComments.Token().Optional()
             from Key in KVString.Named("Key")
             from c in AllComments.Token().Optional()
@@ -76,13 +75,29 @@ namespace KVLib
             from c2 in AllComments.Token().Optional()
             select nodes;
 
-       
-                
 
-        public static Parser<Item> Document =
+
+
+        static Parser<KeyValue> Document =
             from leading in AllComments.Token().Optional()
             from node in Item
-            select node;            
+            select node;
+
+#endregion
+
+        public static KeyValue ParseKeyValueText(string text)
+        {
+            KeyValue i = Document.Parse(text);
+
+            return i;
+        }
+
+        public static KeyValue[] ParseAllKVRootNodes(string text)
+        {
+            IEnumerable<KeyValue> i = Document.Many().Parse(text);
+            return i.ToArray();
+        }
+            
 
     }
 }

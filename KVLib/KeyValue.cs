@@ -20,12 +20,24 @@ namespace KVLib
             get
             {
                 if (children == null) return Enumerable.Empty<KeyValue>();
-                else return Children.AsEnumerable();
+                else return children.AsEnumerable();
+            }
+            internal set
+            {
+                children = value.ToList();
             }
         }
 
-        string Value = "";
-        KeyValue[] children = null;
+        public bool HasChildren
+        {
+            get
+            {
+                return children != null;
+            }
+        }
+
+        internal string Value = "";
+        List<KeyValue> children = null;
 
         public KeyValue this[string key]
         {
@@ -98,24 +110,18 @@ namespace KVLib
             if(children == null)
             {
                 Value = "";
-                children = new KeyValue[] { };
-            }
+                children = new List<KeyValue>();
+            }      
 
-            KeyValue[] old = children;
-            children = new KeyValue[old.Length + 1];
-            for (int i = 0; i < old.Length; i++ )
-            {
-                children[i] = old[i];
-            }
-            children[children.Length - 1] = value;            
+            children.Add(value);
         }
         #endregion
 
-       /* public KeyValue operator+(KeyValue ob)
+        public static KeyValue operator+(KeyValue rhs, KeyValue lhs)
         {
-            AddChild(ob);
-            return this;
-        } */
+            rhs.AddChild(lhs);
+            return rhs;
+        } 
 
         public string ToString(int indent)
         {
@@ -153,18 +159,6 @@ namespace KVLib
         public override string ToString()
         {
             return ToString(0);
-        }
-        /*
-        public static KeyValue Parse(string text)
-        {
-
-            
-
-
-
-           
-
-            return ob;
-        }*/
+        }     
     }
 }

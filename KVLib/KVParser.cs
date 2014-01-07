@@ -7,30 +7,10 @@ using Sprache;
 
 namespace KVLib
 {
-
-    public class Item 
-    {
-        public string Key
-        {
-            internal set;
-            get;
-        }
-
-        public string Text;
-
-        public IEnumerable<Item> Children = null;
-
-        public bool HasChildren
-        {
-            get
-            {
-                return Children != null;
-            }
-        }
-    }
-   
-
-    public class KVParser
+    /// <summary>
+    /// Parser entry point for reading Key Value strings
+    /// </summary>
+    public static class KVParser
     {
 #region TextModel
          static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{')
@@ -85,13 +65,22 @@ namespace KVLib
 
 #endregion
 
+        /// <summary>
+        /// Reads a line of text and returns the first Root key in the text
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static KeyValue ParseKeyValueText(string text)
         {
             KeyValue i = Document.Parse(text);
 
             return i;
         }
-
+        /// <summary>
+        /// Reads a blob of text and returns an array of all root keys in the text
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static KeyValue[] ParseAllKVRootNodes(string text)
         {
             IEnumerable<KeyValue> i = Document.Many().Parse(text);

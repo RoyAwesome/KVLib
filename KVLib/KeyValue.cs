@@ -70,6 +70,16 @@ namespace KVLib
             return float.TryParse(Value, out value);
         }
 
+        public bool TryGet(out bool value)
+        {
+            value = default(bool);
+            int a;
+            if (!int.TryParse(Value, out a)) return false;
+            value = (a != 0);
+            return true;
+
+        }
+
         public int GetInt()
         {
             int v;
@@ -82,6 +92,14 @@ namespace KVLib
             bool success = float.TryParse(Value, out v);
             return success ? v : 0;
         }
+
+        public bool GetBool()
+        {
+            bool v;
+            bool success = TryGet(out v);
+            return success ? v : false;
+        }
+
         public string GetString()
         {
             return Value;

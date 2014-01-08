@@ -14,11 +14,13 @@ namespace KVLib
     {
 #region TextModel
          static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{')
-            .XOr(Parse.WhiteSpace.XOr(Parse.Char('"'))));
+            .XOr(Parse.WhiteSpace.XOr(Parse.Char('"')
+            )));
 
-        static Parser<string> Comment =           
-            from first in Parse.Char('/').Repeat(2).Token()
-            from rest in Parse.AnyChar.Until(Parse.Char('\n'))
+        static Parser<string> Comment =  
+            from ws in Parse.WhiteSpace.Many()
+            from first in Parse.Char('/').Repeat(2)
+            from rest in Parse.AnyChar.Until(Parse.Char('\n').XOr(Parse.Char('\r')))
             select new string(rest.ToArray());
 
         static Parser<IEnumerable<string>> AllComments =

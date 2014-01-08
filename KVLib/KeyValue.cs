@@ -178,8 +178,8 @@ namespace KVLib
         public string ToString(int indent)
         {
             if (children == null)
-            {
-                return string.Format("\"{0}\"\t\"{1}\"", Key, Value);
+            {               
+                return string.Format("{0}\"{1}\"\t\"{2}\"",indent > 0 ? "\t" : "", Key, Value);
             }
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < indent; i++)
@@ -194,7 +194,7 @@ namespace KVLib
             builder.AppendLine("{");
             foreach (KeyValue child in Children)
             {
-                for (int i = 0; i < indent+1; i++)
+                for (int i = 0; i < indent; i++)
                 {
                     builder.Append("\t");
                 }

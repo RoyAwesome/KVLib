@@ -14,8 +14,8 @@ namespace KVLib
     {
 #region TextModel
          static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{')
-            .XOr(Parse.WhiteSpace.XOr(Parse.Char('"')
-            )));
+            .XOr(Parse.Char('"')
+            ));
 
         static Parser<string> Comment =  
             from ws in Parse.WhiteSpace.Many()
@@ -29,7 +29,7 @@ namespace KVLib
 
         static Parser<string> KVString =        
             from first in Parse.Char('"').Token().Optional()
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Token().Many()
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Many()
             from last in Parse.Char('"').Token().Optional()
             select new string(rest.ToArray());
 

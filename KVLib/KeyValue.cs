@@ -122,6 +122,11 @@ namespace KVLib
             children = null;
             Value = value;
         }
+        public void Set(bool value)
+        {
+            children = null;
+            Value = value ? "1" : "0";
+        }
 
         public void AddChild(KeyValue value)
         {

@@ -107,25 +107,33 @@ namespace KVLib
         #endregion
 
         #region Setters
-        public void Set(int value)
+        public KeyValue Set(int value)
         {
             children = null;
             Value = value.ToString();
+
+            return this;
         }
-        public void Set(float value)
+        public KeyValue Set(float value)
         {
             children = null;
             Value = value.ToString();
+
+            return this;
         }
-        public void Set(string value)
+        public KeyValue Set(string value)
         {
             children = null;
             Value = value;
+
+            return this;
         }
-        public void Set(bool value)
+        public KeyValue Set(bool value)
         {
             children = null;
             Value = value ? "1" : "0";
+
+            return this;
         }
 
         public void AddChild(KeyValue value)
@@ -145,6 +153,27 @@ namespace KVLib
             rhs.AddChild(lhs);
             return rhs;
         } 
+
+        public static KeyValue operator+(KeyValue rhs, int lhs)
+        {
+            return rhs.Set(lhs);
+        }
+
+        public static KeyValue operator +(KeyValue rhs, float lhs)
+        {
+            return rhs.Set(lhs);
+        }
+
+        public static KeyValue operator +(KeyValue rhs, string lhs)
+        {
+            return rhs.Set(lhs);
+        }
+
+        public static KeyValue operator +(KeyValue rhs, bool lhs)
+        {
+            return rhs.Set(lhs);
+        }
+
 
         public string ToString(int indent)
         {

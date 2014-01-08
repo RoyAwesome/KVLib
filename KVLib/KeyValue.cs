@@ -198,7 +198,7 @@ namespace KVLib
                 {
                     builder.Append("\t");
                 }
-                builder.AppendLine("\t" + child.ToString(indent + 1));
+                builder.AppendLine(child.ToString(indent + 1));
             }
             for (int i = 0; i < indent; i++)
             {

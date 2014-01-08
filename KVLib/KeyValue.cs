@@ -194,7 +194,7 @@ namespace KVLib
             builder.AppendLine("{");
             foreach (KeyValue child in Children)
             {
-                for (int i = 0; i < indent; i++)
+                for (int i = 0; i < indent+1; i++)
                 {
                     builder.Append("\t");
                 }

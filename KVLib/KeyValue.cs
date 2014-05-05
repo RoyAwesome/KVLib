@@ -7,14 +7,38 @@ using System.IO;
 
 namespace KVLib
 {
+    /// <summary>
+    /// Represnetation of Valve's Key Value format
+    /// 
+    /// A KeyValue contains a string key, and either a value or a list of children. 
+    /// 
+    /// Example Key-Value tree:
+    /// 
+    /// "Example"
+    /// {
+    ///     "ExampleParent"
+    ///     {
+    ///         "ExampleValue1" "A String"
+    ///         "ExampleValueInt" "12"
+    ///     }
+    ///     
+    ///     "ExampleValue" "3.14 12 15" 
+    /// }
+    /// </summary>
     public class KeyValue
     {
+        /// <summary>
+        /// The key of the KV Object.  Read-only
+        /// </summary>
         public string Key
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// List of children leafs
+        /// </summary>
         public IEnumerable<KeyValue> Children
         {
             get
@@ -28,6 +52,9 @@ namespace KVLib
             }
         }
 
+        /// <summary>
+        /// True if the object has children leafs. 
+        /// </summary>
         public bool HasChildren
         {
             get
@@ -39,6 +66,11 @@ namespace KVLib
         internal string Value = "";
         List<KeyValue> children = null;
 
+        /// <summary>
+        /// Access the KeyValue tree by key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public KeyValue this[string key]
         {
             get
@@ -54,7 +86,10 @@ namespace KVLib
 
         }
 
-
+        /// <summary>
+        /// Key Value Constructor
+        /// </summary>
+        /// <param name="key">the key of the Key-Value pair</param>
         public KeyValue(string key)
         {
             Key = key;
@@ -107,6 +142,11 @@ namespace KVLib
         #endregion
 
         #region Setters
+        /// <summary>
+        /// Set the value of the Key-Value leaf
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public KeyValue Set(int value)
         {
             children = null;
@@ -114,6 +154,11 @@ namespace KVLib
 
             return this;
         }
+        /// <summary>
+        /// Set the value of the Key-Value leaf
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public KeyValue Set(float value)
         {
             children = null;
@@ -121,6 +166,11 @@ namespace KVLib
 
             return this;
         }
+        /// <summary>
+        /// Set the value of the Key-Value leaf
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public KeyValue Set(string value)
         {
             children = null;
@@ -128,6 +178,11 @@ namespace KVLib
 
             return this;
         }
+        /// <summary>
+        /// Set the value of the Key-Value leaf
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public KeyValue Set(bool value)
         {
             children = null;
@@ -136,6 +191,10 @@ namespace KVLib
             return this;
         }
 
+        /// <summary>
+        /// Add a single child to the list of children
+        /// </summary>
+        /// <param name="value"></param>
         public void AddChild(KeyValue value)
         {
             if(children == null)
@@ -146,29 +205,76 @@ namespace KVLib
 
             children.Add(value);
         }
+
+        /// <summary>
+        /// Add a collection of KeyValue objects as children
+        /// </summary>
+        /// <param name="KVList"></param>
+        public void AddChildren(IEnumerable<KeyValue> KVList)
+        {
+            if(children == null)
+            {
+                Value = "";
+                children = KVList.ToList();
+                return;
+            }
+            else
+            {
+                children = children.Union(KVList).ToList();
+            }
+        }
         #endregion
 
+        /// <summary>
+        /// Adds two Key-Value objects together.  The left hand KVObject becomes a child of the right hand object
+        /// </summary>
+        /// <param name="rhs"></param>
+        /// <param name="lhs"></param>
+        /// <returns></returns>
         public static KeyValue operator+(KeyValue rhs, KeyValue lhs)
         {
             rhs.AddChild(lhs);
             return rhs;
         } 
-
+        /// <summary>
+        /// Sets the value of the right hand kv object to be the left hand int
+        /// </summary>
+        /// <param name="rhs"></param>
+        /// <param name="lhs"></param>
+        /// <returns></returns>
         public static KeyValue operator+(KeyValue rhs, int lhs)
         {
             return rhs.Set(lhs);
         }
 
+        /// <summary>
+        /// Sets the value of the right hand kv object to be the left hand int
+        /// </summary>
+        /// <param name="rhs"></param>
+        /// <param name="lhs"></param>
+        /// <returns></returns>
         public static KeyValue operator +(KeyValue rhs, float lhs)
         {
             return rhs.Set(lhs);
         }
 
+        /// <summary>
+        /// Sets the value of the right hand kv object to be the left hand int
+        /// </summary>
+        /// <param name="rhs"></param>
+        /// <param name="lhs"></param>
+        /// <returns></returns>
         public static KeyValue operator +(KeyValue rhs, string lhs)
         {
             return rhs.Set(lhs);
         }
 
+        /// <summary>
+        /// Sets the value of the right hand kv object to be the left hand int
+        /// </summary>
+        /// <param name="rhs"></param>
+        /// <param name="lhs"></param>
+        /// <returns></returns>
         public static KeyValue operator +(KeyValue rhs, bool lhs)
         {
             return rhs.Set(lhs);
@@ -212,5 +318,14 @@ namespace KVLib
         {
             return ToString(0);
         }     
+
+        /// <summary>
+        /// Clears the children of this Key-Value object
+        /// </summary>
+        public void ClearChildren()
+        {
+            this.children.Clear();
+            this.children = null;
+        }
     }
 }

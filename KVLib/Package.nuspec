@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>KVLib</id>
+    <version>1.0.0</version>
+    <authors>Garrett Fleenor</authors>
+    <owners>Garrett Fleenor</owners>
+    <licenseUrl>https://github.com/RoyAwesome/KVLib/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/royawesome/kvlib</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library for parsing Valve Key-Value files</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="Sprache" version="1.10.0.36" />
+    </dependencies>
+  </metadata>
+</package>

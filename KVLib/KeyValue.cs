@@ -63,6 +63,12 @@ namespace KVLib
             }
         }
 
+        public KeyValue Parent
+        {
+            get;
+            private set;
+        }
+
         internal string Value = "";
         List<KeyValue> children = null;
 
@@ -201,8 +207,8 @@ namespace KVLib
             {
                 Value = "";
                 children = new List<KeyValue>();
-            }      
-
+            }
+            value.Parent = this;
             children.Add(value);
         }
 
@@ -216,12 +222,24 @@ namespace KVLib
             {
                 Value = "";
                 children = KVList.ToList();
+                foreach(KeyValue kv in children)
+                {
+                    kv.Parent = this;
+                }
                 return;
             }
             else
             {
-                children = children.Union(KVList).ToList();
+                children = children.Select(x => { x.Parent = this; return x; }).Union(KVList).ToList();
             }
+        }
+
+        public void RemoveChild(KeyValue child)
+        {
+            if (children == null) return;
+            if (!children.Contains(child)) return;
+            children.Remove(child);
+            child.Parent = null;
         }
         #endregion
 

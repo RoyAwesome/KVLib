@@ -101,6 +101,12 @@ namespace KVLib
             Key = key;
         }
 
+        internal KeyValue(string key, IEnumerable<KeyValue> children)
+            : this(key)
+        {
+            AddChildren(children);
+        }
+
         #region Getters
         public bool TryGet(out int value)
         {

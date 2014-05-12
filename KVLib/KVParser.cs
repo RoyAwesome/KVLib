@@ -17,8 +17,7 @@ namespace KVLib
             .XOr(Parse.Char('"')
             ));
 
-        static Parser<string> Comment =  
-            from ws in Parse.WhiteSpace.Many()
+        static Parser<string> Comment =              
             from first in Parse.Char('/').Repeat(2)
             from rest in Parse.AnyChar.Until(Parse.Char('\n').XOr(Parse.Char('\r')))
             select new string(rest.ToArray());
@@ -39,7 +38,7 @@ namespace KVLib
             return from open in Parse.Char('{').Token().Named("Start of Block")
                    from value in Parse.Ref(() => Item).Many()  
                    from close in Parse.Char('}').Token().Named("End of Block")
-                   select (new KeyValue(key) { Children = value });
+                   select (new KeyValue(key, value));
         }
 
         static Parser<KeyValue> Value(string key)
@@ -49,7 +48,7 @@ namespace KVLib
 
         }
 
-        static Parser<KeyValue> Item =
+        static Parser<KeyValue> Item =            
             from c1 in AllComments.Token().Optional()
             from Key in KVString.Named("Key")
             from c in AllComments.Token().Optional()

@@ -4,35 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sprache;
+using System.Text.RegularExpressions;
 
 namespace KVLib
 {
-     /// <summary>
+    /// <summary>
     /// Parser entry point for reading Key Value strings
     /// </summary>
     public static class KVParser
     {
-#region TextModel
-         static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{'));
+        #region Regex
 
-         static Parser<string> Comment = Parse.EndOfLineComment("//");
+        static Regex KeyEndFixer = new Regex("\"//.*", RegexOptions.Compiled);
+
+        #endregion
+
+        #region TextModel
+        static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{'));
+
+        static Parser<string> Comment = Parse.EndOfLineComment("//");
 
         static Parser<IEnumerable<string>> AllComments =
             from first in Comment.Token().Many()
             select first;
 
-            
+
         static Parser<string> KVString =
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.Regex("\"//.*")))
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.Regex(KeyEndFixer)))
             select new string(rest.ToArray());
 
 
-      
+
 
         static Parser<KeyValue> SubKey(string key)
         {
             return from open in Parse.Char('{').Token().Named("Start of Block")
-                   from value in Parse.Ref(() => Item).Many()  
+                   from value in Parse.Ref(() => Item).Many()
                    from close in Parse.Char('}').Token().Named("End of Block")
                    select (new KeyValue(key, value));
         }
@@ -44,7 +51,7 @@ namespace KVLib
 
         }
 
-        static Parser<KeyValue> Item =            
+        static Parser<KeyValue> Item =
             from c1 in AllComments.Token().Optional()
             from Key in KVString.Named("Key").Token()
             from c in AllComments.Token().Optional()
@@ -60,7 +67,7 @@ namespace KVLib
             from node in Item
             select node;
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Reads a line of text and returns the first Root key in the text
@@ -69,17 +76,17 @@ namespace KVLib
         /// <returns></returns>
         public static KeyValue ParseKeyValueText(string text)
         {
-            
+
             try
             {
                 KeyValue i = Document.Parse(text);
-                 return i;
+                return i;
             }
-            catch(Sprache.ParseException e)
+            catch (Sprache.ParseException e)
             {
                 throw new KeyValueParsingException(e.Message, e);
             }
-                       
+
         }
         /// <summary>
         /// Reads a blob of text and returns an array of all root keys in the text
@@ -91,7 +98,7 @@ namespace KVLib
             IEnumerable<KeyValue> i = Document.Many().Parse(text);
             return i.ToArray();
         }
-            
+
 
     }
 
@@ -100,7 +107,7 @@ namespace KVLib
         public KeyValueParsingException(string message, Exception inner)
             : base(message, inner)
         {
-            
+
         }
     }
 }

@@ -78,6 +78,14 @@ namespace Tests
         }
 
         [TestMethod]
+        public void Sample6()
+        {
+            KeyValue kv = ParseKeyvalueFile("Sample6.txt");
+
+            Assert.AreEqual("DOTAAbilities", kv.Key);
+        }
+
+        [TestMethod]
         public void Issue1()
         {
             KeyValue kv = ParseKeyvalueFile("Issue1Test.txt");

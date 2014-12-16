@@ -12,13 +12,7 @@ namespace KVLib
     /// Parser entry point for reading Key Value strings
     /// </summary>
     public static class KVParser
-    {
-        #region Regex
-
-        static Regex KeyEndFixer = new Regex("\"//.*", RegexOptions.Compiled);
-        static Regex DoubleQuote = new Regex("\"\"", RegexOptions.Compiled);
-
-        #endregion
+    {    
 
         #region TextModel
         static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{'));
@@ -30,11 +24,16 @@ namespace KVLib
             select first;
 
 
-        static Parser<string> KVString =
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.Regex(KeyEndFixer)).Or(Parse.Regex(DoubleQuote)))
+        static Parser<string> UnquotedKVString =
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce())
             select new string(rest.ToArray());
 
+        static Parser<string> QuotedKVString =
+            from openquote in Parse.Char('"')
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.Char('"'))
+            select new string(rest.ToArray());
 
+        static Parser<string> KVString = QuotedKVString.Or(UnquotedKVString);
 
 
         static Parser<KeyValue> SubKey(string key)

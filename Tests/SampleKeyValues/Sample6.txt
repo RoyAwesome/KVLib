@@ -1,0 +1,75 @@
+﻿
+// Dota Heroes File
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	
+
+	//=================================================================================================================
+	// Zombie: Berserk
+	//=================================================================================================================
+	"creature_zombie_berserk"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityName"					"zombie_berserk"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"BaseClass" 					"ability_datadriven"
+		"AbilityTextureName"            "life_stealer_rage"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"10.0 10.0 10.0 10.0 "
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0 0 0 0"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target" "CASTER"
+				"ModifierName" "zombie_berserk"
+			}
+		}
+
+		"Modifiers"
+		{
+			"zombie_berserk"
+			{
+				"Duration" "%berserk_duration"
+				"EffectName" "particles/items2_fx/mask_of_madness.vpcf"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%berserk_bonus_attack_speed"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%berserk_bonus_movement_speed"
+				}
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"berserk_bonus_attack_speed"	"200 220 240 260"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"berserk_bonus_movement_speed"	"255 255 255 255"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"berserk_duration"				"3.0 3.0 3.0 3.0"
+			}
+		}
+	}
+	
+		
+}

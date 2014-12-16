@@ -1,0 +1,134 @@
+﻿// Dota Units File
+"DOTAUnits"
+{
+	"Version"	"1"	
+
+	//=================================================================================
+	// Creature: Berserk Zombie
+	//=================================================================================
+	"npc_dota_creature_berserk_zombie"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_creature"	// Class of entity of link to.
+		"Model"						"models/heroes/undying/undying_minion_torso.vmdl"	// Model.
+		"SoundSet"					"Undying_Zombie"					// Name of sound set.
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_undying.vsndevts"
+		"ModelScale"				".8"
+		"Level"						"1"
+		"CanBeDominated"			"0"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"creature_zombie_berserk"			// Ability 1
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+		"Ability7"					""			// Ability 7 - Extra.
+		"Ability8"					""			// Ability 8 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"4"			// Physical protection.
+		"MagicalResistance"			"33"		// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"18"		// Damage range min.
+		"AttackDamageMax"			"22"		// Damage range max.
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
+		"AttackRange"				"128"		// Range within a target can be attacked.
+		"ProjectileModel"			""			// Particle system model for projectile.
+		"ProjectileSpeed"			""			// Speed of projectile.
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"30"		// Experience earn.
+		"BountyGoldMin"				"5"		// Gold earned min.
+		"BountyGoldMax"				"7"		// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"70"
+		"HealthBarOffset"			"160"
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"	
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"			// Type of locomotion - ground, air
+		"MovementSpeed"				"120"		// Speed
+		"MovementTurnRate"			"0.5"		// Turning rate.
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"180"		// Base health.
+		"StatusHealthRegen"			"5.0"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"			// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1400"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1400"		// Range of vision at night time.
+
+		// Creature Data
+		//----------------------------------------------------------------------------------------------------------------------
+		"Creature"
+		{
+			"CanRespawn"				"0"
+
+			//Basic AI State
+			//-----------------------------------------------------------------
+			"DefaultState"				"Invade"
+			"States"
+			{
+				"Invade"
+				{
+					"Name"				"Invade"
+					"Aggression"		"100.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
+				}
+			}
+
+			"PermanentDesire"			"1"
+
+			//Level Up Parameters
+			//-----------------------------------------------------------------
+			"HPGain"					"75"
+			"DamageGain"				"10"
+			"ArmorGain"					"1"
+			"MagicResistGain"			"1"
+			"MoveSpeedGain"				"1"
+			"BountyGain"				"5"
+			"XPGain"					"20"
+
+			//Ability Usage Parameters
+			//-----------------------------------------------------------------
+			"DefensiveAbilities"
+			{
+				"Ability1"				
+				{
+					"Name"				"creature_zombie_berserk"
+					"UseSelfishly"		"1"
+					"Buff"				"1"
+					"UseAtHealthPercent""50"
+				}
+			}
+		}
+	}
+		
+}

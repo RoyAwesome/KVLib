@@ -62,6 +62,22 @@ namespace Tests
         }
 
         [TestMethod]
+        public void Sample5()
+        {
+            //In this sample on line 128 there is a KeyValue pair without a space
+            //between the key and the value.  
+
+            //Check that value and make sure it returns 50.
+
+            KeyValue kv = ParseKeyvalueFile("Sample5.txt");
+
+            Assert.AreEqual("DOTAUnits", kv.Key);
+
+            KeyValue SpecialKey = kv["npc_dota_creature_berserk_zombie"]["Creature"]["DefensiveAbilities"]["Ability1"];
+            Assert.AreEqual(50, SpecialKey["UseAtHealthPercent"].GetInt());
+        }
+
+        [TestMethod]
         public void Issue1()
         {
             KeyValue kv = ParseKeyvalueFile("Issue1Test.txt");

@@ -16,6 +16,7 @@ namespace KVLib
         #region Regex
 
         static Regex KeyEndFixer = new Regex("\"//.*", RegexOptions.Compiled);
+        static Regex DoubleQuote = new Regex("\"\"", RegexOptions.Compiled);
 
         #endregion
 
@@ -30,7 +31,7 @@ namespace KVLib
 
 
         static Parser<string> KVString =
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.Regex(KeyEndFixer)))
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.Regex(KeyEndFixer)).Or(Parse.Regex(DoubleQuote)))
             select new string(rest.ToArray());
 
 

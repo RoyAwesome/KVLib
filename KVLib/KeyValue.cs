@@ -115,7 +115,11 @@ namespace KVLib
         {
             if (key.StartsWith("\""))
             {
-                key = key.Replace("\"", "");
+                key = key.Substring(1);
+            }
+            if(key.EndsWith("\""))
+            {
+                key = key.TrimEnd('"');
             }
             Key = key;
            
@@ -208,7 +212,11 @@ namespace KVLib
             children = null;
             if(value.StartsWith("\""))
             {
-                value = value.Replace("\"", "");
+                value = value.Substring(1);
+            }
+            if (value.EndsWith("\""))
+            {
+                value = value.TrimEnd('"');
             }
             _value = value;
 

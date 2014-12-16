@@ -7,7 +7,7 @@ using Sprache;
 
 namespace KVLib
 {
-    /// <summary>
+     /// <summary>
     /// Parser entry point for reading Key Value strings
     /// </summary>
     public static class KVParser
@@ -53,7 +53,7 @@ namespace KVLib
             from c1 in AllComments.Token().Optional()
             from Key in KVString.Named("Key").Token()
             from c in AllComments.Token().Optional()
-            from nodes in SubKey(Key).Token().XOr(Value(Key).Token())
+            from nodes in SubKey(Key).Token().XOr(Value(Key).Token().Named("Value"))
             from c2 in AllComments.Token().Optional()
             select nodes;
 
@@ -74,9 +74,16 @@ namespace KVLib
         /// <returns></returns>
         public static KeyValue ParseKeyValueText(string text)
         {
-            KeyValue i = Document.Parse(text);
-
-            return i;
+            try
+            {
+                KeyValue i = Document.Parse(text);
+                 return i;
+            }
+            catch(Sprache.ParseException e)
+            {
+                throw new KeyValueParsingException(e.Message);
+            }
+                       
         }
         /// <summary>
         /// Reads a blob of text and returns an array of all root keys in the text
@@ -90,5 +97,14 @@ namespace KVLib
         }
             
 
+    }
+
+    public class KeyValueParsingException : Exception
+    {
+        public KeyValueParsingException(string message)
+            : base(message)
+        {
+
+        }
     }
 }

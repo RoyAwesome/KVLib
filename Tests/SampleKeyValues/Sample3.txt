@@ -1,0 +1,9 @@
+﻿//With a SubKey
+"Sample3"
+{
+	"Key" "Value"
+	"Subkey"
+	{
+		"Key"  "Value"
+	}
+}

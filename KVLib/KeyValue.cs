@@ -69,7 +69,22 @@ namespace KVLib
             private set;
         }
 
-        internal string Value = "";
+
+
+        private string _value;
+
+        internal string Value
+        {
+            get
+            {
+                return GetString();
+            }
+            set
+            {
+                Set(value);
+            }
+        }
+       
         List<KeyValue> children = null;
 
         /// <summary>
@@ -98,7 +113,12 @@ namespace KVLib
         /// <param name="key">the key of the Key-Value pair</param>
         public KeyValue(string key)
         {
+            if (key.StartsWith("\""))
+            {
+                key = key.Replace("\"", "");
+            }
             Key = key;
+           
         }
 
         internal KeyValue(string key, IEnumerable<KeyValue> children)
@@ -110,18 +130,18 @@ namespace KVLib
         #region Getters
         public bool TryGet(out int value)
         {
-            return int.TryParse(Value, out value);
+            return int.TryParse(_value, out value);
         }
         public bool TryGet(out float value)
         {
-            return float.TryParse(Value, out value);
+            return float.TryParse(_value, out value);
         }
 
         public bool TryGet(out bool value)
         {
             value = default(bool);
             int a;
-            if (!int.TryParse(Value, out a)) return false;
+            if (!int.TryParse(_value, out a)) return false;
             value = (a != 0);
             return true;
 
@@ -130,13 +150,13 @@ namespace KVLib
         public int GetInt()
         {
             int v;
-            bool success = int.TryParse(Value, out v);
+            bool success = int.TryParse(_value, out v);
             return success ? v : 0;
         }
         public float GetFloat()
         {
             float v;
-            bool success = float.TryParse(Value, out v);
+            bool success = float.TryParse(_value, out v);
             return success ? v : 0;
         }
 
@@ -149,7 +169,7 @@ namespace KVLib
 
         public string GetString()
         {
-            return Value;
+            return _value;
         }       
         #endregion
 
@@ -162,7 +182,7 @@ namespace KVLib
         public KeyValue Set(int value)
         {
             children = null;
-            Value = value.ToString();
+            _value = value.ToString();
 
             return this;
         }
@@ -174,7 +194,7 @@ namespace KVLib
         public KeyValue Set(float value)
         {
             children = null;
-            Value = value.ToString();
+            _value = value.ToString();
 
             return this;
         }
@@ -186,7 +206,11 @@ namespace KVLib
         public KeyValue Set(string value)
         {
             children = null;
-            Value = value;
+            if(value.StartsWith("\""))
+            {
+                value = value.Replace("\"", "");
+            }
+            _value = value;
 
             return this;
         }
@@ -198,7 +222,7 @@ namespace KVLib
         public KeyValue Set(bool value)
         {
             children = null;
-            Value = value ? "1" : "0";
+            _value = value ? "1" : "0";
 
             return this;
         }
@@ -211,7 +235,7 @@ namespace KVLib
         {
             if(children == null)
             {
-                Value = "";
+                _value = "";
                 children = new List<KeyValue>();
             }
             value.Parent = this;
@@ -226,7 +250,7 @@ namespace KVLib
         {
             if(children == null)
             {
-                Value = "";
+                _value = "";
                 children = KVList.ToList();
                 foreach(KeyValue kv in children)
                 {
@@ -309,7 +333,7 @@ namespace KVLib
         {
             if (children == null)
             {               
-                return string.Format("{0}\"{1}\"\t\"{2}\"",indent > 0 ? "\t" : "", Key, Value);
+                return string.Format("{0}\"{1}\"\t\"{2}\"",indent > 0 ? "\t" : "", Key, _value);
             }
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < indent; i++)

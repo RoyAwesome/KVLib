@@ -1,0 +1,14 @@
+﻿"Issue1Test"
+{
+	//Issue #1.  
+	//Mismatched quotes caused parser to fail
+
+	"Test"  5
+	
+	Something	"asdf"
+
+	"Subkey"
+	{
+		"Key"  "Value"
+	}
+}

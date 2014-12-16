@@ -13,25 +13,26 @@ namespace KVLib
     public static class KVParser
     {
 #region TextModel
-         static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{')
-            .XOr(Parse.Char('"')
-            ));
+         static Parser<char> DisallowedKeyChar = Parse.Char('}').XOr(Parse.Char('{'));
 
-        static Parser<string> Comment =              
-            from first in Parse.Char('/').Repeat(2)
-            from rest in Parse.AnyChar.Until(Parse.Char('\n').XOr(Parse.Char('\r')))
-            select new string(rest.ToArray());
+         static Parser<string> Comment = Parse.EndOfLineComment("//");
 
         static Parser<IEnumerable<string>> AllComments =
             from first in Comment.Token().Many()
-            select first;       
+            select first;
 
-        static Parser<string> KVString =        
-            from first in Parse.Char('"').Token().Optional()
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Many()
-            from last in Parse.Char('"').Token().Optional()
+        static Parser<string> QuotedString =
+            from first in Parse.Char('"').Token()
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.Char('"'))
             select new string(rest.ToArray());
 
+     
+        static Parser<string> KVString =     
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace)
+            select new string(rest.ToArray());
+
+
+      
 
         static Parser<KeyValue> SubKey(string key)
         {
@@ -50,7 +51,7 @@ namespace KVLib
 
         static Parser<KeyValue> Item =            
             from c1 in AllComments.Token().Optional()
-            from Key in KVString.Named("Key")
+            from Key in KVString.Named("Key").Token()
             from c in AllComments.Token().Optional()
             from nodes in SubKey(Key).Token().XOr(Value(Key).Token())
             from c2 in AllComments.Token().Optional()

@@ -1,0 +1,6 @@
+﻿"Sample2"
+{
+	//With a comment
+	"Key"  "Value"
+
+}

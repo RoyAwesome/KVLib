@@ -1,0 +1,8 @@
+﻿//Issue #3
+//Empty comments do not parse correctly
+
+"Issue3Test"
+{
+	//
+	"Test"  "Value"
+}

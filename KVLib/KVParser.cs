@@ -23,7 +23,7 @@ namespace KVLib
 
             
         static Parser<string> KVString =            
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.String("\"/")))
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.Regex("\"//.[\\w ]*")))
             select new string(rest.ToArray());
 
 

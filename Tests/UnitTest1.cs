@@ -42,6 +42,26 @@ namespace Tests
         }
 
         [TestMethod]
+        public void Sample4()
+        {
+            /* This sample was taken from the Dota 2 project sample for Holdout
+             * It had an issue because on line 6 there is a key/value pair with a comment at the end, but not whitespace 
+             * betwen the comment and the end of the value.  
+             */
+            KeyValue kv = ParseKeyvalueFile("Sample4.txt");
+
+            Assert.AreEqual(kv.Key, "npc_dota_holdout_tower");
+
+            Assert.IsNotNull(kv["BaseClass"]);
+
+            Assert.IsNotNull(kv["Model"]);
+            Assert.AreEqual(kv["Model"].GetString(), "models/props_structures/tower_good.vmdl");
+
+            Assert.IsNotNull(kv["SoundSet"]);
+            Assert.AreEqual(kv["SoundSet"].GetString(), "Tower.Water");
+        }
+
+        [TestMethod]
         public void Issue1()
         {
             KeyValue kv = ParseKeyvalueFile("Issue1Test.txt");

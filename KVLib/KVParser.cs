@@ -21,14 +21,9 @@ namespace KVLib
             from first in Comment.Token().Many()
             select first;
 
-        static Parser<string> QuotedString =
-            from first in Parse.Char('"').Token()
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.Char('"'))
-            select new string(rest.ToArray());
-
-     
-        static Parser<string> KVString =     
-            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace)
+            
+        static Parser<string> KVString =            
+            from rest in Parse.AnyChar.Except(DisallowedKeyChar).Until(Parse.WhiteSpace.AtLeastOnce().Or(Parse.String("\"/")))
             select new string(rest.ToArray());
 
 
@@ -53,7 +48,7 @@ namespace KVLib
             from c1 in AllComments.Token().Optional()
             from Key in KVString.Named("Key").Token()
             from c in AllComments.Token().Optional()
-            from nodes in SubKey(Key).Token().XOr(Value(Key).Token().Named("Value"))
+            from nodes in SubKey(Key).Token().XOr(Value(Key).Named("Value"))
             from c2 in AllComments.Token().Optional()
             select nodes;
 
@@ -74,6 +69,7 @@ namespace KVLib
         /// <returns></returns>
         public static KeyValue ParseKeyValueText(string text)
         {
+            
             try
             {
                 KeyValue i = Document.Parse(text);
@@ -81,7 +77,7 @@ namespace KVLib
             }
             catch(Sprache.ParseException e)
             {
-                throw new KeyValueParsingException(e.Message);
+                throw new KeyValueParsingException(e.Message, e);
             }
                        
         }
@@ -101,10 +97,10 @@ namespace KVLib
 
     public class KeyValueParsingException : Exception
     {
-        public KeyValueParsingException(string message)
-            : base(message)
+        public KeyValueParsingException(string message, Exception inner)
+            : base(message, inner)
         {
-
+            
         }
     }
 }

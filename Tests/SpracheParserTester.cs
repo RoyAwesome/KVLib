@@ -1,16 +1,17 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using KVLib;
+using KVLib.KeyValues;
 
-namespace Tests
+namespace KVLib
 {
     [TestClass]
-    public class UnitTest1
+    public class SpracheParserTester
     {
         [TestMethod]
         public void Sample1()
         {
-            KeyValue kv = ParseKeyvalueFile("Sample1.txt");
+            KeyValue kv = KVTestHelper.Sample1(new SpracheKVParser());
 
             Assert.AreEqual(kv.Key, "SomeTest");
             Assert.IsNotNull(kv["Key"]);
@@ -21,7 +22,8 @@ namespace Tests
         [TestMethod]
         public void Sample2()
         {
-            KeyValue kv = ParseKeyvalueFile("Sample2.txt");
+            KeyValue kv = KVTestHelper.Sample2(new SpracheKVParser());
+
             Assert.AreEqual(kv.Key, "Sample2");
             Assert.IsNotNull(kv["Key"]);
             Assert.AreEqual(kv["Key"].GetString(), "Value");
@@ -31,7 +33,8 @@ namespace Tests
         [TestMethod]
         public void Sample3()
         {
-            KeyValue kv = ParseKeyvalueFile("Sample3.txt");
+            KeyValue kv = KVTestHelper.Sample3(new SpracheKVParser());
+
             Assert.AreEqual(kv.Key, "Sample3");
             Assert.IsNotNull(kv["Key"]);
             Assert.AreEqual(kv["Key"].GetString(), "Value");
@@ -48,7 +51,7 @@ namespace Tests
              * It had an issue because on line 6 there is a key/value pair with a comment at the end, but not whitespace 
              * betwen the comment and the end of the value.  
              */
-            KeyValue kv = ParseKeyvalueFile("Sample4.txt");
+            KeyValue kv = KVTestHelper.Sample4(new SpracheKVParser());
 
             Assert.AreEqual(kv.Key, "npc_dota_holdout_tower");
 
@@ -69,7 +72,7 @@ namespace Tests
 
             //Check that value and make sure it returns 50.
 
-            KeyValue kv = ParseKeyvalueFile("Sample5.txt");
+            KeyValue kv = KVTestHelper.Sample5(new SpracheKVParser());
 
             Assert.AreEqual("DOTAUnits", kv.Key);
 
@@ -80,7 +83,7 @@ namespace Tests
         [TestMethod]
         public void Sample6()
         {
-            KeyValue kv = ParseKeyvalueFile("Sample6.txt");
+            KeyValue kv = KVTestHelper.Sample6(new SpracheKVParser());
 
             Assert.AreEqual("DOTAAbilities", kv.Key);
         }
@@ -88,7 +91,7 @@ namespace Tests
         [TestMethod]
         public void Issue1()
         {
-            KeyValue kv = ParseKeyvalueFile("Issue1Test.txt");
+            KeyValue kv = KVTestHelper.Issue1(new SpracheKVParser());
             Assert.AreEqual(kv.Key, "Issue1Test");
             Assert.IsNotNull(kv["Test"]);
 
@@ -109,22 +112,12 @@ namespace Tests
         [TestMethod]
         public void Issue3()
         {
-            KeyValue kv = ParseKeyvalueFile("Issue3Test.txt");
+            KeyValue kv = KVTestHelper.Issue3(new SpracheKVParser());
             Assert.AreEqual(kv.Key, "Issue3Test");
 
             Assert.IsNotNull(kv["Test"]);
             Assert.AreEqual(kv["Test"].GetString(), "Value");
         }
-
-
-
-        private KeyValue ParseKeyvalueFile(string file)
-        {
-            string KeyValueText = System.IO.File.ReadAllText("SampleKeyValues/" + file);
-
-            KeyValue kv = KVParser.ParseKeyValueText(KeyValueText);
-            return kv;
-
-        }
+       
     }
 }

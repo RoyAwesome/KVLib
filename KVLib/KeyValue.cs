@@ -112,15 +112,7 @@ namespace KVLib
         /// </summary>
         /// <param name="key">the key of the Key-Value pair</param>
         public KeyValue(string key)
-        {
-            if (key.StartsWith("\""))
-            {
-                key = key.Substring(1);
-            }
-            if(key.EndsWith("\""))
-            {
-                key = key.TrimEnd('"');
-            }
+        {          
             Key = key;
            
         }
@@ -214,15 +206,7 @@ namespace KVLib
             if(value == null) throw new ArgumentNullException("value");     
 #endif
             value = value ?? ""; 
-            children = null;
-            if(value.StartsWith("\""))
-            {
-                value = value.Substring(1);
-            }
-            if (value.EndsWith("\""))
-            {
-                value = value.TrimEnd('"');
-            }
+            children = null;           
             _value = value;
 
             return this;

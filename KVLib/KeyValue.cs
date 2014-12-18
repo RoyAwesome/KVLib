@@ -209,6 +209,11 @@ namespace KVLib
         /// <returns></returns>
         public KeyValue Set(string value)
         {
+            
+#if CHECKED
+            if(value == null) throw new ArgumentNullException("value");     
+#endif
+            value = value ?? ""; 
             children = null;
             if(value.StartsWith("\""))
             {

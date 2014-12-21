@@ -345,10 +345,13 @@ namespace KVLib
             builder.AppendLine("{");
             foreach (KeyValue child in Children)
             {
-                for (int i = 0; i < indent; i++)
+                if(!child.HasChildren)
                 {
-                    builder.Append("\t");
-                }
+                    for (int i = 0; i < indent; i++)
+                    {
+                        builder.Append("\t");
+                    }
+                }               
                 builder.AppendLine(child.ToString(indent + 1));
             }
             for (int i = 0; i < indent; i++)

@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="KVTestHelper.cs" />
+    <Compile Include="KeyValueTester.cs" />
     <Compile Include="SpracheParserTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

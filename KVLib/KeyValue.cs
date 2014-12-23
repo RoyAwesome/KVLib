@@ -25,7 +25,7 @@ namespace KVLib
     ///     "ExampleValue" "3.14 12 15" 
     /// }
     /// </summary>
-    public class KeyValue
+    public class KeyValue : ICloneable
     {
         /// <summary>
         /// The key of the KV Object.  Read-only
@@ -374,6 +374,34 @@ namespace KVLib
         {
             this.children.Clear();
             this.children = null;
+        }
+
+        public object Clone()
+        {
+            KeyValue kv;
+            DeepCopy(this, out kv);
+
+            return kv;
+        }
+
+        private void DeepCopy(KeyValue original, out KeyValue Copy)
+        {
+            Copy = new KeyValue(original.Key);
+            if(original.HasChildren)
+            {
+                foreach(KeyValue child in original.Children)
+                {
+                    //Copy the child
+                    KeyValue kv = new KeyValue(child.Key);
+                    DeepCopy(child, out kv);
+                    Copy += kv;                    
+                }
+            }
+            else
+            {
+                Copy += original.GetString();
+            }
+                    
         }
     }
 }

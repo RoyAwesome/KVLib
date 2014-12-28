@@ -35,6 +35,7 @@ namespace KVLib.KeyValues
         static Parser<KeyValue> SubKey(string key)
         {
             return from open in SParse.Char('{').Token().Named("Start of Block")
+                   from c1 in AllComments.Token().Many().Optional()
                    from value in SParse.Ref(() => Item).Many().Optional()
                    from close in SParse.Char('}').Token().Named("End of Block")
                    select (new KeyValue(key, value.Get()));

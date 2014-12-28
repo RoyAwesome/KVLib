@@ -1,13 +1,44 @@
-﻿//Testing empty child keys
+﻿
+// Dota Abilities Override File
+"DOTAAbilities"
+{
+	"Version"		"1"
 
   "ninja_dash_fire"
-  { 
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"             "ability_datadriven"
+    "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING" //DOTA_ABILITY_BEHAVIOR_IMMEDIATE | 
+    "AbilityTextureName"    "juggernaut_blade_dance"
+
+    // Casting
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastRange"    "9999"
+    "AbilityCastPoint"       "0.3"
+    "AbilityCastAnimation" "ACT_DOTA_ATTACK_EVENT"
+
+    // Time
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCooldown"        "7"
+
     "precache"
-    {	
-      
-    }  
-
-	"Test" "5"
+    {
+      //"particlefile"        "particles/units/heroes/hero_morphling.pcf"
+      //"particlefile"        "particles/units/heroes/hero_lina.pcf"
+      //"particlefile" "particles/units/heroes/hero_ember_spirit.pcf"
+    }
+    // Cost
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityManaCost"        "1"
+    "OnSpellStart"
+    {
+      "RunScript"
+        {
+          "ScriptFile"  "scripts/vscripts/ninja_fire.lua"
+          "Function"    "OnDashStart"
+          "Target"      "POINT"
+        }
+    }
   }
-
-
+}

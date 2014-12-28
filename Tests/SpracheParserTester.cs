@@ -125,9 +125,10 @@ namespace KVLib
         {
             KeyValue kv = KVTestHelper.Sample7(new SpracheKVParser());
 
-            Assert.AreEqual(kv.Key, "ninja_dash_fire");
-            Assert.IsNotNull(kv["precache"]);
-            Assert.AreEqual(kv["precache"].Children.Count(), 0);
+            Assert.AreEqual(kv.Key, "DOTAAbilities");
+            Assert.IsNotNull(kv["ninja_dash_fire"]);
+            Assert.IsNotNull(kv["ninja_dash_fire"]["precache"]);
+            Assert.AreEqual(kv["ninja_dash_fire"]["precache"].Children.Count(), 0);
         }
        
     }

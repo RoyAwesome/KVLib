@@ -1,0 +1,13 @@
+﻿//Testing empty child keys
+
+  "ninja_dash_fire"
+  { 
+    "precache"
+    {	
+      
+    }  
+
+	"Test" "5"
+  }
+
+

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using KVLib;
 using KVLib.KeyValues;
+using System.Linq;
 
 namespace KVLib
 {
@@ -117,6 +118,16 @@ namespace KVLib
 
             Assert.IsNotNull(kv["Test"]);
             Assert.AreEqual(kv["Test"].GetString(), "Value");
+        }
+
+        [TestMethod]
+        public void Sample7()
+        {
+            KeyValue kv = KVTestHelper.Sample7(new SpracheKVParser());
+
+            Assert.AreEqual(kv.Key, "ninja_dash_fire");
+            Assert.IsNotNull(kv["precache"]);
+            Assert.AreEqual(kv["precache"].Children.Count(), 0);
         }
        
     }

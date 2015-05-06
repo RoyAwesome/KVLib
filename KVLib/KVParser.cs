@@ -14,7 +14,7 @@ namespace KVLib
     /// </summary>
     public static class KVParser
     {
-        public static IKVParser KV1 = new KeyValues.SpracheKVParser();
+        public static IKVParser KV1 = new KeyValues.PenguinParser();
      
 
         /// <summary>

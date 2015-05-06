@@ -63,6 +63,9 @@ namespace KVLib
             }
         }
 
+        /// <summary>
+        /// The parent node for this KeyValue.
+        /// </summary>
         public KeyValue Parent
         {
             get;
@@ -70,9 +73,14 @@ namespace KVLib
         }
 
 
-
+        /// <summary>
+        /// The internal value string.
+        /// </summary>
         private string _value;
 
+        /// <summary>
+        /// Get the value of the keyvalue as a string.
+        /// </summary>
         internal string Value
         {
             get
@@ -85,6 +93,9 @@ namespace KVLib
             }
         }
        
+        /// <summary>
+        /// The children of this KeyValue.
+        /// </summary>
         List<KeyValue> children = null;
 
         /// <summary>
@@ -117,6 +128,11 @@ namespace KVLib
            
         }
 
+        /// <summary>
+        /// Construct a keyvalue with a given key and set of children.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="children">The enumerable set of children.</param>
         internal KeyValue(string key, IEnumerable<KeyValue> children)
             : this(key)
         {
@@ -273,8 +289,8 @@ namespace KVLib
         /// <summary>
         /// Adds two Key-Value objects together.  The left hand KVObject becomes a child of the right hand object
         /// </summary>
-        /// <param name="rhs"></param>
-        /// <param name="lhs"></param>
+        /// <param name="rhs">The KeyValue which will be set.</param>
+        /// <param name="lhs">The new value for the KeyValue.</param>
         /// <returns></returns>
         public static KeyValue operator+(KeyValue rhs, KeyValue lhs)
         {
@@ -284,8 +300,8 @@ namespace KVLib
         /// <summary>
         /// Sets the value of the right hand kv object to be the left hand int
         /// </summary>
-        /// <param name="rhs"></param>
-        /// <param name="lhs"></param>
+        /// <param name="rhs">The KeyValue which will be set.</param>
+        /// <param name="lhs">The new value for the KeyValue.</param>
         /// <returns></returns>
         public static KeyValue operator+(KeyValue rhs, int lhs)
         {
@@ -295,8 +311,8 @@ namespace KVLib
         /// <summary>
         /// Sets the value of the right hand kv object to be the left hand int
         /// </summary>
-        /// <param name="rhs"></param>
-        /// <param name="lhs"></param>
+        /// <param name="rhs">The KeyValue which will be set.</param>
+        /// <param name="lhs">The new value for the KeyValue.</param>
         /// <returns></returns>
         public static KeyValue operator +(KeyValue rhs, float lhs)
         {
@@ -306,8 +322,8 @@ namespace KVLib
         /// <summary>
         /// Sets the value of the right hand kv object to be the left hand int
         /// </summary>
-        /// <param name="rhs"></param>
-        /// <param name="lhs"></param>
+        /// <param name="rhs">The KeyValue which will be set.</param>
+        /// <param name="lhs">The new value for the KeyValue.</param>
         /// <returns></returns>
         public static KeyValue operator +(KeyValue rhs, string lhs)
         {
@@ -317,15 +333,29 @@ namespace KVLib
         /// <summary>
         /// Sets the value of the right hand kv object to be the left hand int
         /// </summary>
-        /// <param name="rhs"></param>
-        /// <param name="lhs"></param>
+        /// <param name="rhs">The KeyValue which will be set.</param>
+        /// <param name="lhs">The new value for the KeyValue.</param>
         /// <returns></returns>
         public static KeyValue operator +(KeyValue rhs, bool lhs)
         {
             return rhs.Set(lhs);
         }
 
+        /// <summary>
+        /// Null out the parent entry of all children.
+        /// </summary>
+        public void clearChildParents()
+        {
+            foreach (KeyValue child in children)
+            {
+                child.Parent = null;
+            }
+        }
 
+        /// <summary>
+        /// Get a string representation of the KeyValue.
+        /// </summary>
+        /// <returns>A string representation of the KeyValue.</returns>
         public string ToString(int indent)
         {
             if (children == null)
@@ -362,6 +392,10 @@ namespace KVLib
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Get a string representation of the KeyValue.
+        /// </summary>
+        /// <returns>A string representation of the KeyValue.</returns>
         public override string ToString()
         {
             return ToString(0);
@@ -376,6 +410,10 @@ namespace KVLib
             this.children = null;
         }
 
+        /// <summary>
+        /// Create a deep copy of the KeyValue.
+        /// </summary>
+        /// <returns>The copy.</returns>
         public object Clone()
         {
             KeyValue kv;

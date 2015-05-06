@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="KVTestHelper.cs" />
     <Compile Include="KeyValueTester.cs" />
+    <Compile Include="PenguinParserTester.cs" />
     <Compile Include="SpracheParserTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -10,8 +10,15 @@ namespace KVLib.KeyValues
      * Don't cha wish your parser was fast like me?
      * Ported from ModDotaClient2 to RoyAwesome/KeyValues by Penguinwizzard
      */
-    class PenguinParser : IKVParser
+    public class PenguinParser : IKVParser
     {
+        /// <summary>
+        /// Default constructor for the relatively fast PenguinParser.
+        /// </summary>
+        public PenguinParser()
+        {
+            return;
+        }
         /// <summary>
         /// An enum used for parse state tracking.
         /// Theoretically clearer than a bool, and should compile the same.

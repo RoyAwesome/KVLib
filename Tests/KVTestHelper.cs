@@ -55,6 +55,10 @@ namespace KVLib
         {
             return parser.Parse(GetText("Sample7"));
         }
+        public static KeyValue Sample8(IKVParser parser)
+        {
+            return parser.Parse(GetText("Sample8"));
+        }
                
     }
 }

@@ -12,6 +12,8 @@ namespace KVLib.KeyValues
      */
     public class PenguinParser : IKVParser
     {
+        /// Valve doesn't follow their own frikken KV spec... set to 0 for strict handling.
+        private const bool BREAK_SPEC = true;
         /// <summary>
         /// Default constructor for the relatively fast PenguinParser.
         /// </summary>
@@ -97,6 +99,7 @@ namespace KVLib.KeyValues
                                 }
                                 //ok, now contents[i] and contents[j] are the same character, on either end of the key
                                 KeyValue cur = new KeyValue(contents.Substring(i + 1, j - (i + 1)));
+                                Console.WriteLine("DEBUG: " + contents.Substring(i + 1, j - (i + 1)));
                                 curparent.AddChild(cur);
                                 curparent = cur;
                                 parseState = parseEnum.lookingForValue;
@@ -133,6 +136,17 @@ namespace KVLib.KeyValues
                                     while (i < contents.Length && contents[i] != '\n')
                                     {
                                         i++;
+                                    }
+                                }
+                                else
+                                {
+                                    if (BREAK_SPEC)
+                                    {
+                                        // Valve (incorrectly?) matches / as a single-line comment
+                                        while (i < contents.Length && contents[i] != '\n')
+                                        {
+                                            i++;
+                                        }
                                     }
                                 }
                             }

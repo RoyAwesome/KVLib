@@ -1,0 +1,88 @@
+
+// Dota Heroes File
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	//=================================================================================================================
+	// Ability: Storm Spirit Ball Lightning
+	//=================================================================================================================
+	"storm_spirit_ball_lightning"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"					"5101"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		
+			// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.3 0.3 0.3"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"15 15 15 15"
+		
+		/ Damage.
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityDamage"					"8 12 16"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"										"FIELD_INTEGER"
+				"ball_lightning_initial_mana_percentage"		"7"		
+			}
+			"02"
+			{
+				"var_type"										"FIELD_INTEGER"
+				"ball_lightning_initial_mana_base"				"15"		
+			}
+			"03"
+			{
+				"var_type"							"FIELD_INTEGER"
+				"ball_lightning_move_speed"			"1250 1875 2500"		
+			}
+			"04"
+			{
+				"var_type"							"FIELD_INTEGER"
+				"ball_lightning_aoe"				"125 200 275"		
+			}
+			"05"
+			{
+				"var_type"							"FIELD_INTEGER"
+				"ball_lightning_travel_cost_base"	"12"		
+			}
+			"06"
+			{
+				"var_type"								"FIELD_FLOAT"
+				"ball_lightning_travel_cost_percent"	"0.7"		
+			}
+			"07"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"ball_lightning_vision_radius"			"400"		
+			}
+			"08"
+			{
+				"var_type"								"FIELD_FLOAT"
+				"blocker_duration"			"5"		
+			}
+		}
+	}
+	
+}
+
+
+
+
+////////////////////////
+////////////////////////
+// Next Ability ID: 5676
+////////////////////////
+////////////////////////

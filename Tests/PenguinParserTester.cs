@@ -130,5 +130,12 @@ namespace KVLib
             Assert.IsNotNull(kv["ninja_dash_fire"]["precache"]);
             Assert.AreEqual(kv["ninja_dash_fire"]["precache"].Children.Count(), 0);
         }
+        [TestMethod]
+        public void PSample8()
+        {
+            //Just a parsing test.
+            KeyValue kv = KVTestHelper.Sample8(new PenguinParser());
+
+        }
     }
 }

@@ -13,10 +13,10 @@ namespace KVLib.KeyValues
         #region TextModel
         static Parser<char> DisallowedKeyChar = SParse.Char('}').XOr(SParse.Char('{'));
 
-        static Parser<string> Comment = SParse.EndOfLineComment("//");
+        static CommentParser Comment = new CommentParser("//", "/*", "\\*", "\n"); 
 
         static Parser<IEnumerable<string>> AllComments =
-            from first in Comment.Token().Many()
+            from first in Comment.SingleLineComment.Token().Many()
             select first;
 
 

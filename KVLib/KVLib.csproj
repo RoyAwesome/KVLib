@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KeyValues\AderumParser.cs" />
     <Compile Include="KeyValues\IKVParser.cs" />
     <Compile Include="KeyValue.cs" />
-    <Compile Include="KeyValues\KeyValueParsingException.cs" />
     <Compile Include="KeyValues\PenguinParser.cs" />
     <Compile Include="KeyValues\SpracheKVParser.cs" />
     <Compile Include="KVParser.cs" />

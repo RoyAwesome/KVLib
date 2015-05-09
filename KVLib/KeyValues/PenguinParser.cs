@@ -99,7 +99,7 @@ namespace KVLib.KeyValues
                                 }
                                 //ok, now contents[i] and contents[j] are the same character, on either end of the key
                                 KeyValue cur = new KeyValue(contents.Substring(i + 1, j - (i + 1)));
-                                Console.WriteLine("DEBUG: " + contents.Substring(i + 1, j - (i + 1)));
+                                //Console.WriteLine("DEBUG: " + contents.Substring(i + 1, j - (i + 1)));
                                 curparent.AddChild(cur);
                                 curparent = cur;
                                 parseState = parseEnum.lookingForValue;

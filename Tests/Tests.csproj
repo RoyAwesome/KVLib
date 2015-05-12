@@ -54,7 +54,6 @@
     <Compile Include="KeyValueTester.cs" />
     <Compile Include="AderumParserTester.cs" />
     <Compile Include="PenguinParserTester.cs" />
-    <Compile Include="SpracheParserTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -284,6 +284,17 @@ namespace KVLib
             children.Remove(child);
             child.Parent = null;
         }
+
+        public KeyValue MakeEmptyParent()
+        {
+            if (HasChildren)
+            {
+                return this;
+            }
+
+            children = new List<KeyValue>();
+            return this;
+        }
         #endregion
 
         /// <summary>
@@ -409,7 +420,7 @@ namespace KVLib
             this.children.Clear();
             this.children = null;
         }
-
+        
         /// <summary>
         /// Create a deep copy of the KeyValue.
         /// </summary>

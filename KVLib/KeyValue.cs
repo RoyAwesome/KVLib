@@ -277,14 +277,32 @@ namespace KVLib
             }
         }
 
-        public void RemoveChild(KeyValue child)
+        /// <summary>
+        /// Removes a child keyvalue
+        /// </summary>
+        /// <param name="child"></param>
+        public bool RemoveChild(KeyValue child)
         {
-            if (children == null) return;
-            if (!children.Contains(child)) return;
-            children.Remove(child);
+            if (children == null) return false;
+            if (!children.Contains(child)) return false;
+            
             child.Parent = null;
+            return children.Remove(child);
         }
 
+        public void RemoveChildAt(int index)
+        {
+            if (!HasChildren) throw new InvalidOperationException("Keyvalue doesn't have children!");
+            var c = children[index];
+            c.Parent = null;
+
+            children.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Converts this Keyvalue object into a Keyvalue object without subkeys
+        /// </summary>
+        /// <returns></returns>
         public KeyValue MakeEmptyParent()
         {
             if (HasChildren)
@@ -294,6 +312,24 @@ namespace KVLib
 
             children = new List<KeyValue>();
             return this;
+        }
+
+        public void ReplaceChildAtIndex(KeyValue value, int Index)
+        {
+            if (!HasChildren) throw new InvalidOperationException("Keyvalue doesn't have children!");
+            children[Index] = value;
+        }
+
+        public int IndexOfChild(KeyValue kv)
+        {
+            if (!HasChildren) throw new InvalidOperationException("Keyvalue doesn't have children!");
+            return children.IndexOf(kv);
+        }
+
+        public bool ContainsChild(KeyValue kv)
+        {
+            if (!HasChildren) throw new InvalidOperationException("Keyvalue doesn't have children!");
+            return children.Contains(kv);
         }
         #endregion
 
@@ -355,7 +391,7 @@ namespace KVLib
         /// <summary>
         /// Null out the parent entry of all children.
         /// </summary>
-        public void clearChildParents()
+        public void ClearChildParents()
         {
             foreach (KeyValue child in children)
             {

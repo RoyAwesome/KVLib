@@ -231,7 +231,7 @@ namespace KVLib.KeyValues
                     throw new KeyNotFoundException("Unterminated child blocks", null);
                 }
                 KeyValue[] ret = basekv.Children.ToArray<KeyValue>();
-                basekv.clearChildParents();
+                basekv.ClearChildParents();
                 return ret;
             }
             catch (KeyValueParsingException e)
